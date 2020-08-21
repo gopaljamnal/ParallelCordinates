@@ -1,0 +1,169 @@
+{
+  "data": {
+    "schema": [
+      {
+        "name":"RUN_ID","type":"character","group":"Id","group_type":"Id"
+      },
+       {
+        "name":"SET_UP_TIME","type":"Integer","group":"Process Complexity","group_type":"Characteristics"
+      },
+      {
+       "name":"SHAPE","type":"numeric","group":"Process Complexity","group_type":"Characteristics"
+      },
+      {
+        "name":"VOLUME","type":"integer","group":"Process Complexity","group_type":"Characteristics"
+      },
+      {
+        "name":"NUM_STAGES","type":"integer","group":"Process Complexity","group_type":"Characteristics"
+      },
+      {
+        "name":"WASTE","type":"numeric","group":"Material Utilization","group_type":"Characteristics"
+      },
+      {
+        "name":"RECYCLED_MATERIALS","type":"numeric","group":"Material Utilization","group_type":"Characteristics"
+      },
+      {
+        "name":"RE_USE","type":"numeric","group":"Material Utilization","group_type":"Characteristics"
+      },
+	  {
+        "name":"TOOLING","type":"integer","group":"Operating Costs","group_type":"Characteristics"
+      },
+	   {
+        "name":"PRODUCTIVITY","type":"numeric","group":"Operating Costs","group_type":"Characteristics"
+      },
+      {
+        "name":"ECONOMIC_VOLUME","type":"integer","group":"Operating Costs","group_type":"Characteristics"
+      },
+      {
+        "name":"CYCLE_TIME","type":"integer","group":"Operating Costs","group_type":"Characteristics"
+      },
+      {
+        "name":"FACILITY_COST","type":"numeric","group":"Operating Costs","group_type":"Characteristics"
+      },
+      {
+        "name":"PART_QUALITY","type":"numeric","group":"Quality","group_type":"Characteristics"
+      },
+      {
+        "name":"DIMENSIONAL_ACCURACY","type":"numeric","group":"Quality","group_type":"Characteristics"
+      },
+      {
+        "name":"SURFACE_FINISH","type":"numeric","group":"Quality","group_type":"Characteristics"
+      },
+      {
+        "name":"POROSITY","type":"numeric","group":"Quality","group_type":"Characteristics"
+      }
+    ],
+    "dimensions": {
+      "rows": 100,
+      "cols": 17
+    }
+  },
+  "cluster": {
+    "kmeans": {
+      "man": "/ocpu/library/stats/man/kmeans/text",
+      "args": {
+        "identifier": {
+          "type": "character",
+          "required": true
+        },
+        "vars": {
+          "type": "schema.numeric",
+          "required": true
+        },
+        "centers": {
+          "type": "numeric",
+          "required": false
+        },
+        "iter.max": {
+          "type": "numeric",
+          "required": false,
+          "default": 10
+        },
+        "nstart": {
+          "type": "numeric",
+          "required": false,
+          "default": 1
+        },
+        "algorithm": {
+          "type": "character",
+          "required": false,
+          "values": [
+            "Hartigan-Wong",
+            "Lloyd",
+            "Forgy",
+            "MacQueen"
+          ]
+        }
+      }
+    },
+    "correlation": {
+      "man": "/ocpu/library/stats/man/kmeans/text",
+      "args": {
+        "identifier": {
+          "type": "character",
+          "required": true
+        },
+        "vars": {
+          "type": "schema.numeric",
+          "required": true
+        },
+        "pearsonThreshold": {
+          "type": "numeric",
+          "required": false
+        },
+        "minClusterSize": {
+          "type": "numeric",
+          "required": false,
+          "default": 2
+        }
+      }
+    }
+  },
+  "similarity": {
+    "KNN": {
+      "man": "https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.NearestNeighbors.html",
+      "args": {
+        "metric": {
+          "type": "character",
+          "required": false,
+          "default": "clinical_kernel"
+        },
+        "k": {
+          "type": "numeric",
+          "required": false,
+          "default": 10
+        },
+        "rowId": {
+          "type": "numeric",
+          "required": true
+        }
+      }
+    }
+  },
+  "dimred": {
+    "pca": {
+      "restrict": {
+        "type": "schema.numeric",
+        "group_type": "!Frequencies"
+      }
+    },
+    "ca": {
+      "restrict": {
+        "type": "schema.numeric",
+        "group_type": "Frequencies"
+      }
+    },
+    "mca": {
+      "restrict": {
+        "type": "schema.factor",
+        "group_type": "Characteristics"
+      }
+    }
+  },
+  "escg": {
+    "asseccion": [],
+    "contigs": {
+
+    }
+  }
+}

@@ -1,0 +1,64 @@
+<div id="main" class="container-fluid" ng-controller="DetailDisplayCtrl" ng-init="init()">
+  <!--<h2>Data Summary</h2>-->
+
+  <div class="row rowMarginMedium" style="text-align: center">
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-2">
+      <label>Sort</label>
+    </div>
+    <div class="col-md-2">
+      <select class="form-control" id="fieldNameSelect" ng-model="model.sortField">
+        <option ng-repeat="fieldName in model.availableFields" value="{{fieldName}}">{{fieldName}}</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <select class="form-control" id="sortOrderSelect" ng-model="model.sortOrder">
+        <option ng-repeat="order in model.sortOrderOptions" value="{{order}}">{{order}}</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+
+    </div>
+  </div>
+  <div class="row rowMarginMedium" style="text-align: center">
+    <div class="col-md-2">
+
+    </div>
+    <div class="col-md-8">
+      <detail-Chart-Directive  clickfunc="highlight" labelfield="RUN_ID" attributefield="Stiffness_kN_mm"  id="deatilVis1"></detail-Chart-Directive>
+    </div>
+    <div class="col-md-2">
+
+    </div>
+  </div>
+  <div class="row rowMarginMedium" style="text-align: center">
+    <div class="col-md-2">
+
+    </div>
+    <div class="col-md-8">
+      <detail-Chart-Directive  clickfunc="highlight" labelfield="RUN_ID" attributefield="Max_Princ_Stress_MPa"   id="detailVis2"></detail-Chart-Directive>
+    </div>
+    <div class="col-md-2">
+
+    </div>
+  </div>
+
+  <div class="row rowMarginMedium" style="text-align: center">
+    <div class="col-md-2">
+
+    </div>
+    <div class="col-md-8">
+      <detail-Chart-Directive  clickfunc="highlight" labelfield="RUN_ID" attributefield="Mass_Kg" id="detailVis3"></detail-Chart-Directive>
+    </div>
+    <div class="col-md-2">
+
+    </div>
+  </div>
+
+
+
+
+
+</div>

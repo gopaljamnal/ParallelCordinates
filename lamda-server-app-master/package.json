@@ -1,0 +1,26 @@
+{
+  "name": "LAMDA-Server",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "app-config": "~1.0.0",
+    "cookie-parser": "~1.4.4",
+    "csvtojson": "~2.0.10",
+    "debug": "~4.1.1",
+    "ejs": "~2.6.2",
+    "express": "~4.17.1",
+    "express-fileupload": "^1.1.6",
+    "express-session": "~1.16.2",
+    "gulp": "~4.0.2",
+    "http-errors": "~1.7.3",
+    "jsdoc": "~3.6.3",
+    "keycloak-connect": "^4.8.3",
+    "morgan": "~1.9.1",
+    "opencpu": "~1.1.1",
+    "request": "~2.88.0",
+    "sqlite3": "~4.0.9"
+  }
+}

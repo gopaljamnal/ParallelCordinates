@@ -1,0 +1,78 @@
+<div id="main" class="container-fluid" ng-controller="DataCtrl" ng-init="init()">
+<!--<div id="main" class="container-fluid">-->
+  <div id="status" class="row">
+    <div class="col-lg-12">
+      <!--<span style="float:right"> Process status: <span class="label label-default"> {{model.status}} </span></span>-->
+      <span class="label label-default"style="float:right"> {{model.status}} </span>
+    </div>
+  </div>
+  <div id="config" class="row">
+    <div class="col-lg-6">
+      <div class="panel panel-default">
+        <div class="panel-heading" title="Dataset name" style="height:50px">
+          Choose a dataset to load:
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span>{{model.currentDataset?model.currentDataset.name:"Choose ..."}}</span>
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li ng-repeat="dataset in model.datasetList" ng-click="selectDataset(dataset)"><a href="#Data">{{dataset.name}}</a></li>
+            </ul>
+          </div>
+
+        </div>
+        <div class="panel-body" title="Dataset description" style="height:60px">
+          {{model.currentDataset.short_desc}}
+          <span class="badge" title="Number of features" style="float:right">{{model.schema.length}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="panel panel-default">
+        <div class="panel-heading" style="height:50px">
+          <div class="row">
+            <div class="col-lg-6">
+            Import a new dataset (csv file):
+            </div>
+            <div class="col-lg-6 ">
+            <input class="btn btn-secondary btn-sm" ng-disabled="model.importingFile" type="file" name="datasetfile" id="input_file_button" file-model="sendFileModel" onChange="angular.element(this).scope().fileNameChanged(this)"/>
+            </div>
+
+          </div>
+        </div>
+        <div class="panel-body" style="height:60px">
+          <div class="row">
+            <div class="col-lg-5">
+              <span ng-show="isWrongDatasetName" style="font-size:x-small;color:red">Accepted: alpha numeric character and '_' as separator.</span>
+              <input type="text" ng-disabled="model.importingFile" ng-model="model.dataSetName" ng-change="updateWrongDatasetName()" placeholder="Dataset Name" class="form-control" title="Dataset name">
+            </div>
+            <div class="col-lg-5">
+              <input type="text" ng-disabled="model.importingFile" ng-model="model.shortDesc" placeholder="Dataset Description" class="form-control" title="Dataset description">
+            </div>
+            <div class="col-lg-2">
+              <button type="button" class="btn btn-secondary btn-sm" ng-disabled="model.importingFile" ng-click="sendFile()">Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="features" class="row">
+    <div class="col-lg-12">
+      <table class="table table-condensed table-striped fixed-header">
+        <thead>
+          <tr><th>Feature</th><th>Type</th><th>Group</th><th>Group type</th><th>Display on load</th></tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="column in model.schema" >
+            <td>{{column.name}}</td><td>{{column.type}}</td><td>{{column.group}}</td><td>{{column.group_type}}</td><td>{{column.displayOnLoad}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

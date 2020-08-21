@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="LAMDAClientApp">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+
+  <link href="libs/fontawesome/css/font-awesome.css" rel="stylesheet">
+  <link href="libs/parcoords/d3.parcoords.css" rel="stylesheet">
+  <link href="libs/dimredplot/dimredplot.css" rel="stylesheet">
+  <link href="css/light.css" rel="stylesheet" id="maincss">
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top" ng-controller="NavBarCtrl" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">
+        <!--<span style="color: #337ab7">I</span>nteractive <span style="color: #337ab7">Co</span>ntig-bin -->
+        <!--<span style="color: #337ab7">Ve</span>rification and <span style="color: #337ab7">R</span>efinement
+        </a>-->
+        LAMDA
+      </a>
+    </div>
+    <form class="navbar-form navbar-right form-inline">
+      <div class="btn-group" ng-controller="ManualColoringCtrl" ng-show="manualColoringEnabled" dropdown>
+        <button type="button" class="btn btn-default" ng-disabled="!itemsBrushed" ng-style="{'background-color': colors[0]}">Apply color to selection</button>
+        <button type="button" class="btn btn-default dropdown-toggle" ng-disabled="!itemsBrushed" dropdown-toggle>
+          <span class="caret"></span>
+          <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu brush-color" role="menu" id="brush-color-menu">
+          <li ng-repeat="color in colors">
+            <a href="#" ng-style="{'background-color': color}" ng-click="colorSelection(color)">
+              <span class="colorpatch"></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+<!--      <div class="form-group" ng-controller="NameHighlightCtrl" ng-hide="noHighlightAvailable">-->
+
+<!--        <button class="btn btn-default col-lg-4" for="rowNameHighlight" ng-click="highlightRow()">Highlight</button>-->
+<!--        <div class="col-lg-8">-->
+<!--          <div class="dropdown" style="background-color: transparent" dropdown>-->
+<!--            <input type="text" id="rowNameHighlight" placeholder="Enter RUN ID"-->
+<!--                   class="form-control" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"-->
+<!--                   style="width: 100%;" autocomplete="off" ng-model="model.rowName" dropdown-toggle>-->
+<!--            <ul class="dropdown-menu" aria-labelledby="rowNameHighlight"-->
+<!--                style="max-height: 500px;overflow: auto" dropdown-menu>-->
+<!--              <li ng-repeat="name in model.availableNames | filterSortedAND :model.rowName" class="ng-scope">-->
+<!--                <a href="" ng-click="selectHighlightName(name,$event)">-->
+<!--                  <span class="ng-binding">{{name}}</span>-->
+<!--                </a>-->
+<!--              </li>-->
+<!--            </ul>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+      <div class="form-group" ng-controller="StatusIndicatorCtrl">
+        <div id="AppStatusMessage">
+<!--          {{rows+"/"+rowCount}}-->
+              <img ng-show="dataProcessing" src="img/processing-circleballs-very-small.gif" alt="Data processing. Please wait." />
+              <img ng-show="dataLoading" src="img/dataloadingballs.gif" alt="Data loading. Please wait." />
+              {{message}}
+        </div>
+        <progressbar id="parcoord-rendering-progress" class="renderingprogress" max="1" value="renderingProgress['parcoord'].rows/renderingProgress['parcoord'].rowCount">
+<!--          <span style="color:black; white-space:nowrap;">{{renderingProgress['parcoord'].rows}} / {{renderingProgress['parcoord'].rowCount}}</span>-->
+        </progressbar>
+        <progressbar id="bursh-rendering-progress" class="renderingprogress" max="1" value="renderingProgress['brush'].rows/renderingProgress['brush'].rowCount">
+<!--          <span style="color:black; white-space:nowrap;">{{renderingProgress['brush'].rows}} / {{renderingProgress['brush'].rowCount}}</span>-->
+        </progressbar>
+      </div>
+      <div class="form-group" ng-controller="DataIndicatorCtrl">
+        <progress ng-click="changeScale()" max="1" animate="false">
+          <bar ng-repeat="bar in counts track by $index"
+               value="bar.rows / rowCount"
+               type="{{bar.type}}">
+            <div ng-hide="(bar.rows / rowCount)< 0.01">
+              <b style="z-index: 1;position: relative;">{{bar.rows}}</b>
+            </div>
+            <div ng-hide="(bar.rows / rowCount)>= 0.01">
+              <b style="z-index: 1;position: relative; font-size: 0px;">dummy</b>
+            </div>
+            <!-- <b ng-hide="(bar.rows / rowCount) < 0.005">{{bar.rows}}</b> -->
+          </bar>
+        </progress>
+      </div>
+      <div class="form-group" ng-controller="ThemeCtrl">
+        <label class="control-label">Theme:</label>
+        <div class="btn-group">
+          <label class="btn btn-default" ng-model="theme" btn-radio="'light'">Light</label>
+          <label class="btn btn-default" ng-model="theme" btn-radio="'dark'">Dark</label>
+        </div>
+        <a href="/logout" class ="btn btn-info" ng-show = "showAuthenticationLogOutButton"> logout </a>
+      </div>
+
+    </form>
+    <div class="collapse navbar-collapse"   id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li ng-repeat="page in model.pageList" ng-class="{ active: isActive('/{{page.name}}')}"><a ng-show="page.enabled" href="#/{{page.name}}">{{page.fullName}}</a> <a ng-show="!page.enabled">{{page.fullName}}</a></li>
+<!--        <li ng-repeat="page in model.pageList | filter: {enabled:true}" ng-class="{ active: isActive('/{{page.name}}')}"><a ng-show="page.enabled" href="#/{{page.name}}">{{page.fullName}}</a> <span ng-show="!page.enabled">{{page.fullName}}</span></li>-->
+      </ul>
+      <span id="dataset-name" class="navbar-text"> Data set: {{model.datasetInfo.name}}</span>
+    </div>
+
+  </div>
+</nav>
+
+<ng-view></ng-view>
+
+
+<!-- build:js(app) app.min.js -->
+<script src="libs/lodash/lodash-3.9.0.min.js"></script>
+<script src="libs/jquery/jquery-1.11.1.min.js"></script>
+<script src="libs/bootstrap/js/bootstrap.min.js"></script>
+<script src="libs/opencpu/opencpu-0.5.js"></script>
+<script src="libs/d3/d3.min.js"></script>
+<script src="libs/d3/d3.svg.multibrush.js"></script>
+<script src="libs/d3/colorbrewer.js"></script>
+<script src="libs/d3/fisheye.js"></script>
+<script src="libs/parcoords/d3.parcoords.js"></script>
+<script src="libs/dimredplot/dimredplot.js"></script>
+<script src="libs/dimredplot/scatterplot.js"></script>
+<script src="libs/dimredplot/barplot.js"></script>
+<script src="libs/dimredplot/variancepercentageplot.js"></script>
+<script src="libs/dimredplot/colourmap.js"></script>
+<script src="libs/angularjs/angular-1.2.32.min.js"></script>
+<script src="libs/angularjs/angular-route-1.2.32.min.js"></script>
+<script src="libs/ui-bootstrap/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<script src="libs/angular-smart-table/smart-table.js"></script>
+
+<!--Vega lite for charts-->
+<script src="libs/vega-lite/vega.js"></script>
+<script src="libs/vega-lite/vega-lite.js"></script>
+<script src="libs/vega-lite/vega-embed.js"></script>
+
+
+
+<script src="js/app.js"></script>
+<script src="js/customFilters.js"></script>
+
+<script src="js/services/dataset.js"></script>
+<script src="js/services/analytics.js"></script>
+<script src="js/services/assert.js"></script>
+<script src="js/services/color.js"></script>
+<script src="js/services/opencpu.js"></script>
+<script src="js/services/nodeservercall.js"></script>
+<script src="js/services/parcoords.js"></script>
+<script src="js/services/dimredplot.js"></script>
+<script src="js/services/tag.js"></script>
+<script src="js/services/r.js"></script>
+<script src="js/services/appstatus.js"></script>
+
+<!--<script src="js/controllers/namehighlightctrl.js"></script>-->
+<script src="js/controllers/chartsctrl.js"></script>
+<script src="js/controllers/clusterctrl.js"></script>
+<script src="js/controllers/clusterconfigctrl.js"></script>
+<script src="js/controllers/statusindicatorctrl.js"></script>
+<script src="js/controllers/dataindicatorctrl.js"></script>
+<!--<script src="js/controllers/escgctrl.js"></script>-->
+<!--<script src="js/controllers/exportctrl.js"></script>-->
+<script src="js/controllers/filterctrl.js"></script>
+<script src="js/controllers/dimredctrl.js"></script>
+<script src="js/controllers/dimredctrlPCA.js"></script>
+<script src="js/controllers/dimredctrlLDA.js"></script>
+<script src="js/controllers/dimredplotctrl.js"></script>
+<script src="js/controllers/colorctrl.js"></script>
+<script src="js/controllers/manualcoloringctrl.js"></script>
+<script src="js/controllers/themectrl.js"></script>
+<script src="js/controllers/plotctrl.js"></script>
+<script src="js/controllers/variableselectionctrl.js"></script>
+<script src="js/controllers/dimreddisplayctrl.js"></script>
+<script src="js/controllers/colourmapctrl.js"></script>
+<script src="js/controllers/tagctrl.js"></script>
+<script src="js/controllers/nameselectionctrl.js"></script>
+<script src="js/controllers/navbarctrl.js"></script>
+<script src="js/controllers/summarydisplayctrl.js"></script>
+<script src="js/controllers/detaildisplayctrl.js"></script>
+<script src="js/controllers/datactrl.js"></script>
+<script src="js/controllers/similarityctrl.js"></script>
+<script src="js/controllers/similarityconfigctrl.js"></script>
+<script src="js/controllers/datatablectrl.js"></script>
+<script src="js/controllers/datatableconfigctrl.js"></script>
+<script src="js/controllers/parcoordsvarsctrl.js"></script>
+<script src="js/controllers/parcoordsctrl.js"></script> <!-- Must be declared at the end to because it call initialization of data -->
+
+<script src="js/directives/summarychartdirective.js"></script>
+<script src="js/directives/detailchartdirective.js"></script>
+<script src="js/directives/pageselectdirective.js"></script>
+
+<!-- endbuild -->
+</body>
+</html>

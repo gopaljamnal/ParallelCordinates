@@ -1,0 +1,77 @@
+<div id="main" class="container-fluid" ng-controller="SummaryDisplayCtrl" ng-init="init()">
+
+<!--  First loop to ensure thgeat the place holder divs exsit inth page before the vegalLite charts are added-->
+  <div class="row placeholders" ng-repeat="chartRow in model.chartMatrix" >
+    <div class="row rowMarginMedium" style="text-align: center">
+      <div ng-repeat = "chart in chartRow" style="display: inline-block;" class="{{getDivClass()}}">
+        <div id={{chart.id}}></div>      </div>
+    </div>
+  </div>
+  <!--  Second  loop to actuall call the directives that draw the charts-->
+  <div class="row placeholders" ng-repeat="chartRow in model.chartMatrix" >
+    <div class="row rowMarginMedium" style="text-align: center">
+      <div ng-repeat = "chart in chartRow" style="display: inline-block;" class="{{getDivClass()}}">
+        <summary-Chart-Directive  clickfunc="highlight" labelfield = {{chart.labelfield}} attributefield={{chart.attributefield}}  attributegroupfield={{chart.attributegroupfield}} height = {{chart.height}} divid={{chart.id}}></summary-Chart-Directive>
+      </div>
+    </div>
+  </div>
+
+
+<!--  <h2>Old Data Summary</h2>-->
+<!--  <div class="row rowMarginMedium" style="text-align: center">-->
+<!--     <div class="col-md-4">-->
+<!--      <summary-Chart-Directive  clickfunc="highlight" labelfield="RUN_ID" attributefield="Stiffness_kN_mm"  attributegroupfield="Material" height = "400" id="summaryVis1"></summary-Chart-Directive>-->
+<!--    </div>-->
+<!--    <div class="col-md-4">-->
+<!--      <summary-Chart-Directive  clickfunc="highlight" labelfield="RUN_ID" attributefield="Max_Princ_Stress_MPa"  attributegroupfield="Material" height = "400" id="summaryVis2"></summary-Chart-Directive>-->
+<!--    </div>-->
+<!--    <div class="col-md-4">-->
+<!--      <summary-Chart-Directive  clickfunc="highlight" labelfield="RUN_ID" attributefield="Mass_Kg"  attributegroupfield="Material" height = "400" id="summaryVis3"></summary-Chart-Directive>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div class="row rowMarginMedium" style="text-align: center">-->
+<!--    <div class="col-md-4">-->
+<!--      <summary-Chart-Directive  clickfunc="highlight" labelfield="RUN_ID" attributefield="Stiffness_kN_mm"  attributegroupfield="Reinforcement_material" height = "400" id="summaryVis4"></summary-Chart-Directive>-->
+<!--    </div>-->
+<!--    <div class="col-md-4">-->
+<!--      <summary-Chart-Directive  clickfunc="highlight" labelfield="RUN_ID" attributefield="Max_Princ_Stress_MPa"  attributegroupfield="Reinforcement_material" height = "400" id="summaryVis5"></summary-Chart-Directive>-->
+<!--    </div>-->
+<!--    <div class="col-md-4">-->
+<!--      <summary-Chart-Directive  clickfunc="highlight" labelfield="RUN_ID" attributefield="Mass_Kg"  attributegroupfield="Reinforcement_material" height = "400" id="summaryVis6"></summary-Chart-Directive>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div class="row rowMarginMedium" style="text-align: center">-->
+<!--    <div class="col-md-4">-->
+<!--      <summary-Chart-Directive  clickfunc="highlight" labelfield="RUN_ID" attributefield="Stiffness_kN_mm"  attributegroupfield="Reinforcement_level" height = "400" id="summaryVis7"></summary-Chart-Directive>-->
+<!--    </div>-->
+<!--    <div class="col-md-4">-->
+<!--      <summary-Chart-Directive  clickfunc="highlight" labelfield="RUN_ID" attributefield="Max_Princ_Stress_MPa"  attributegroupfield="Reinforcement_level" height = "400" id="summaryVis8"></summary-Chart-Directive>-->
+<!--    </div>-->
+<!--    <div class="col-md-4">-->
+<!--      <summary-Chart-Directive  clickfunc="highlight" labelfield="RUN_ID" attributefield="Mass_Kg"  attributegroupfield="Reinforcement_level" height = "400" id="summaryVis9"></summary-Chart-Directive>-->
+<!--    </div>-->
+<!--  </div>-->
+  <!--<div class="row  rowMarginMedium" style="text-align: center">-->
+    <!--<div class="col-md-4">-->
+      <!--<summary-Chart-Directive  clickfunc="highlight" labelfield="RUN_ID" attributefield="SURFACE_FINISH"  attributegroupfield="SURFACE_FINISH_LEVEL" height = "400" id="summaryVis4"></summary-Chart-Directive>-->
+    <!--</div>-->
+    <!--<div class="col-md-4">-->
+      <!--<summary-Chart-Directive  clickfunc="highlight" labelfield="RUN_ID" attributefield="WASTE"  attributegroupfield="WASTE_LEVEL" height = "400" id="summaryVis5"></summary-Chart-Directive>-->
+    <!--</div>-->
+    <!--<div class="col-md-4">-->
+      <!--<summary-Chart-Directive  clickfunc="highlight" labelfield="RUN_ID" attributefield="ECONOMIC_VOLUME"  attributegroupfield="ECONOMIC_VOLUME_LEVEL" height = "400" id="summaryVis6"></summary-Chart-Directive>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <!--<div class="row rowMarginMedium" style="text-align: center">-->
+    <!--<div class="col-md-4">-->
+      <!--<summary-Chart-Directive  clickfunc="highlight" labelfield="RUN_ID" attributefield="CYCLE_TIME"  attributegroupfield="CYCLE_TIME_LEVEL" height = "400" id="summaryVis7"></summary-Chart-Directive>-->
+    <!--</div>-->
+    <!--<div class="col-md-4">-->
+    <!--</div>-->
+    <!--<div class="col-md-4">-->
+    <!--</div>-->
+  <!--</div>-->
+</div>

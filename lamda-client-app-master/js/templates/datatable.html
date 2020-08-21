@@ -1,0 +1,83 @@
+<div id="dataTable" class="tab-pane container-fluid active" ng-controller="DataTableCtrl" ng-init="init()">
+<!--    <div class="row">-->
+<!--        <div class="col-lg-12">-->
+<!--            <form>-->
+<!--                <label for="predicate">Column for filtering:</label>-->
+<!--                <select class="form-control" id="predicate" ng-model="selectedPredicate" ng-options="predicate.name for predicate in state.schema"></select>-->
+<!--                <input st-search="{{selectedPredicate}}" placeholder="bound predicate" class="form-control" type="search"/>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+    <div class="row">
+        <div class="col-lg-12">
+            <table st-table="displayedCollection" st-safe-src="state.fullDataList" class="table table-condensed table-striped table-hover fixed-header">
+                <thead>
+                    <tr>
+                        <th colspan="{{nbColumnsRatio(1/5)}}">
+                            <!--                            <div st-pagination="" st-items-by-page="state.nbItemsByPage" st-displayed-pages="getNbPages()"></div>-->
+                            <div class="notextselect" st-pagination="" st-items-by-page="state.nbItemsByPage" st-template="js/templates/paginationcustom.html"></div>
+
+                            <!--        <li><a></a></li>-->
+
+                        </th>
+                        <th colspan="{{nbColumnsRatio(1/5)}}">
+                            Nb rows by page: <input type="number" min="10" ng-pattern="/^\d+$/" ng-model="state.nbItemsByPage">
+                        </th>
+                        <th colspan="{{nbColumnsRatio(1/5)}}">
+                            <button type="button" class="btn btn-default btn-sm"
+                                    ng-click="openSelectionDialog()">
+                                <i class="fa fa-cog"></i>
+                                <span>Choose columns</span>
+                            </button>
+                        </th>
+                        <th colspan="{{nbColumnsRatio(1/5)}}">
+                            <label>Sync with brushed: <input type="checkbox" ng-model="state.syncWithHighlight" ng-change="syncWithHighlightChanged()"></label>
+                        </th>
+                        <th colspan="{{nbColumnsRatio(1/5)}}">
+                            <label>Sync with filtered: <input type="checkbox" ng-model="state.syncWithFilter" ng-change="syncWithFilterChanged()"></label>
+                        </th>
+
+                    </tr>
+                    <tr>
+                        <th colspan="{{nbColumnsRatio(1/4)}}"><select  class="input-sm form-control" id="predicate" ng-model="state.selectedPredicate" ng-options="predicate.name for predicate in state.predicates"></select></th>
+                        <th colspan="{{nbColumnsRatio(3/4)}}"><input st-search="{{state.selectedPredicate.name==='All'?'':state.selectedPredicate.name}}" placeholder="Filter by {{state.selectedPredicate.name}}" class="input-sm form-control" type="search"/></th>
+                    </tr>
+                    <!--                    <tr>-->
+                    <!--                        <th colspan="5"><input st-search="" class="form-control" placeholder="global search ..." type="text"/></th>-->
+                    <!--                    </tr>-->
+
+                    <tr >
+                        <th ng-repeat="column in state.schema" ng-attr-title="{{column.name}}" st-sort="{{column.name}}">
+                            {{column.name}}
+                        </th>
+                    </tr>
+<!--                    <tr>-->
+<!--                        <th>-->
+<!--                            <input ng-repeat="column in state.schema" st-search="{{column.name}}" placeholder="search for {{column.name}}" type="search"/>-->
+<!--                        </th>-->
+
+<!--                    <tr >-->
+                </thead>
+                <tbody>
+                <tr ng-repeat="row in displayedCollection track by row.row " ng-click="rowSelection(row)" ng-class="getSelectedClass(row)">
+                    <td ng-repeat="column in state.schema" ng-attr-title="{{row[column.name]}}">
+                        {{row[column.name]}}
+                    </td>
+                </tr>
+                </tbody>
+<!--                <tfoot>-->
+<!--                    <tr>-->
+<!--                        <td class="text-center">-->
+<!--                            <div class="notextselect" st-pagination="" st-items-by-page="state.nbItemsByPage" st-template="js/templates/paginationcustom.html"></div>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                </tfoot>-->
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+
+        </div>
+    </div>
+</div>

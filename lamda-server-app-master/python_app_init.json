@@ -1,0 +1,70 @@
+{
+	"cluster": {
+		"kmeans": {
+			"man": "https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html",
+			"args": {
+				"identifier": {
+					"type": "character",
+					"required": true
+				},
+				"centers": {
+					"type": "numeric",
+					"required": false
+				},
+				"n_init ": {
+					"type": "numeric",
+					"required": false,
+					"default": 10
+				},
+				"max_iter": {
+					"type": "numeric",
+					"required": false,
+					"default": 300
+				}
+			}
+		},
+		"kmeansNN": {
+			"man": "https://scikit-learn.org/stable/modules/generated/sklearn.cluster.SpectralClustering.html",
+			"args": {
+				"identifier": {
+					"type": "character",
+					"required": true
+				},
+				"centers": {
+					"type": "numeric",
+					"required": false
+				}
+			}
+		}
+	},
+	"similarity": {
+		"KNN": {
+			"man": "https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.NearestNeighbors.html",
+			"metrics": ["clinical_kernel"],
+			"args": {
+				"metric": {
+					"type": "character",
+					"required": false,
+					"default": "clinical_kernel"
+				},
+				"k": {
+					"type": "numeric",
+					"required": false,
+					"default": 10
+				},
+				"rowId": {
+					"type": "numeric",
+					"required": true
+				}
+			}
+		}
+	},
+	"dimred": {
+		"pca": {
+			"restrict": {
+				"type": "schema.numeric",
+				"group_type": "!Frequencies"
+			}
+		}
+	}
+}

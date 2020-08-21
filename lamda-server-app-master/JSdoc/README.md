@@ -1,0 +1,1 @@
+This folder sotres the JSDOC outputs. JSDOC is installed as part of the npm install for the project. The "ghenerate_docs.bat" batch file creates the set of docs.

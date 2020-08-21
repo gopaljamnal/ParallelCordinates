@@ -1,0 +1,57 @@
+<div class="modal-header">
+  <h3 class="modal-title">Configure similarity search</h3>
+</div>
+<div class="modal-body">
+  <form class="form-horizontal" role="form">
+    <fieldset>
+      <div class="form-group" ng-hide="options.methods.length <= 1">
+        <label for="sltMethod" class="col-sm-3 control-label">Method:</label>
+        <div class="col-sm-9">
+          <select id="sltMethod" class="form-control input-sm"
+                  ng-disabled="options.methods.length <= 1"
+                  ng-model="specified.method"
+                  ng-options="method.name for method in options.methods">
+          </select>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="inpIdentifier">Reference row:</label>
+        <div class="col-sm-9">
+          <input id="inpIdentifier" class="form-control" ng-model="specified.rowId"
+                 placeholder="Reference row id" type="number" min="1" ng-pattern="/^\d+$/">
+          </input>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset><!-- TODO: Only show for KMEANS-->
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="inpK"
+               ng-hide="hideCenters()">Neighbor number:</label>
+        <div class="col-sm-9">
+          <input id="inpK" class="form-control" placeholder="Neighbor count (min: 2, max: #rows)"
+                 type="number" min="2" ng-pattern="/^\d+$/" ng-model="specified.k"
+                 ng-hide="hideCenters()">
+                 <!-- TODO: this hardcoding for kmeans should be repaired. parameter should be those passed from the back end-->
+          </input>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <div class="from-group">
+        <label class="col-sm-3 control-label" for="SelectVariables">Variables to consider:</label>
+        <div class="col-sm-9 adjusted-left-padding no-right-padding">
+          <select id="SelectVariables" class="form-control"
+            ng-model="specified.variables"
+            ng-options="variable.name group by variable.group for variable in options.variables" multiple>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-sm btn-primary" ng-disabled="configurationInvalid" ng-click="ok()">OK</button>
+  <button class="btn btn-sm btn-warning" ng-click="cancel()">Cancel</button>
+</div>

@@ -1,0 +1,37 @@
+<div id="main" class="container-fluid">
+  <!-- Top half of the sceen -->
+  <div id="top" class="row">
+    <!--<div id="colourmap"  class="col-lg-1">
+      <div class="colourmap" ng-controller="ColourmapCtrl">
+      </div>
+    </div>-->
+    <div id="parcoords" class="col-lg-12">
+      <div class="parcoords" ng-controller="ParcoordsCtrl" ng-init="init()">
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom half of the sceen -->
+  <div id="bottom" class="row" ng-controller="PlotCtrl">
+    <div id="options" ng-style="sliding">
+      <ng-include src="'js/templates/options.html'"></ng-include>
+    </div>
+    <div class="col-lg-1">
+    </div>
+    <!-- Scatterplot -->
+    <div id="charts" class="col-lg-11" ng-controller="ChartsCtrl" ng-init="init()">
+      <div class="row" id="dimRedPlots">
+        <tabset id="detailViewTabset">
+          <tab active="dataTableIsActive" heading="Data table" id="detailViewDataTableTab">
+            <ng-include src="'js/templates/datatable.html'"></ng-include>
+          </tab>
+          <tab active="dimRedIsActive" heading="Dimensionality reduction" id="detailViewDimRedPlotTableTab">
+            <div id="dimRedPlot" class="tab-pane container-fluid active" ng-class="dimredplotWidth" ng-repeat="analysis in analyses" ng-controller="DimRedPlotCtrl">
+            </div>
+
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
+</div>

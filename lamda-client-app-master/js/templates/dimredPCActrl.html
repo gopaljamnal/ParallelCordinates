@@ -1,0 +1,25 @@
+<form role="form" class="form-horizontal"
+      ng-controller="DimRedCtrlPCA"
+      ng-show="dataAvailable">
+  <div class="form-group">
+    <label class="col-sm-3 adjusted-right-padding control-label text-right"
+           popover="Dimensionality Reduction"
+           popover-trigger="mouseenter">Dim. Red (PCA):</label>
+    <div class="col-sm-6 no-left-padding">
+      <!-- disabled for now, we assume default settings
+      <button type="button" class="btn btn-default btn-sm">
+        <span class="fa fa-cog"></span>
+      </button>
+        --> <button type="button" class="btn btn-default btn-sm"
+              ng-click="openSelectionDialog('pca')"
+              popover={{selectionTextLong}}
+              popover-trigger="mouseenter">{{selectionText}}</button>
+      <button type="button" class="btn btn-default btn-sm"
+              ng-disabled="configurationInvalid"
+              ng-click="reduceDimensionality()">Reduce</button>
+              <button type="button" class="btn btn-default btn-sm"
+              ng-disabled="configurationInvalid"
+              ng-click="removeAnalysis('pca')">Remove</button>
+    </div>
+  </div>
+</form>

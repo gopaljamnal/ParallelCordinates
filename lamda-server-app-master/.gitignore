@@ -1,0 +1,7 @@
+db/*.db
+config/templates
+data
+node_modules
+.idea
+clusterData_R_Req.json
+computeKNN_req.json

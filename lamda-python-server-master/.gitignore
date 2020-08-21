@@ -1,0 +1,5 @@
+.idea
+data
+**/__pycache__
+python_server.log
+test/output1.png
